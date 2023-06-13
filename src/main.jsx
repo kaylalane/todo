@@ -10,7 +10,7 @@ import {
 import Register from "../components/Register";
 import Signin from "../components/Signin";
 import { onAuthStateChanged } from "firebase/auth";
-import ToDo from "../components/todo";
+import ToDo from "../components/Todo";
 import { auth } from "../components/config";
 
 

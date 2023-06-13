@@ -1,24 +1,23 @@
 {
-    "name": "Do it!",
-    "short_name": "Do it!",
-    "theme_color": "$bad8d5",
-    "display": "standalone",
-    "background_color": "black",
-    "start_url": "/",
-    "scope": "/",
-    "description": "Do it! is a to do list app. ",
-    "icons": [
-        {
-            "src": "images/icons/icon.png",
-            "sizes": "1024x1024",
-            "type": "image/png"
-        },       
-        {
-            "src": "images/icons/icon-maskable.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "maskable"
-        }
-    ]
-  
+  "name": "Do it!",
+  "short_name": "Do it!",
+  "theme_color": "$bad8d5",
+  "display": "standalone",
+  "background_color": "black",
+  "start_url": "/",
+  "scope": "/",
+  "description": "Do it! is a to do list app. ",
+  "icons": [
+    {
+      "src": "/book-open.svg",
+      "sizes": "24x24",
+      "type": "image/png"
+    },
+    {
+      "src": "/book-open-100px.svg",
+      "sizes": "100x100",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
 }

@@ -3,26 +3,33 @@ import { app, auth } from "./config";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { redirect } from "react-router";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function Signin() {
+  let navigate = useNavigate();
+  const [error, setErrorMessage] = useState("AN ERROR");
+  const [displayError, setDisplayError] = useState(false);
+
   const [formState, setFormState] = useState({ email: "", password: "" });
-  function handleSubmit() {
+  function handleSubmit(e) {
+    e.preventDefault();
     signInWithEmailAndPassword(auth, formState.email, formState.password)
       .then((userCredential) => {
-        user = auth.currentUser;
-        redirect("/");
+        const user = userCredential.user;
+        navigate("/", { replace: true });
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+        setErrorMessage(errorMessage);
+        setDisplayError(true);
       });
   }
 
   return (
     <div className="flex justify-center items-center min-h-screen">
       <form
-        onSubmit={() => handleSubmit()}
+        onSubmit={(e) => handleSubmit(e)}
         className="flex flex-col gap-6 justify-center items-center w-full max-w-xl"
       >
         <div>
@@ -37,7 +44,7 @@ export default function Signin() {
             value={formState.email}
             className="p-2 mt-1 text-black w-full rounded-xl"
             onChange={(e) =>
-              setFormState((s) => ({ ...s, email: e.target.value }))
+              setFormState({ ...formState, email: e.target.value })
             }
           />
         </label>
@@ -51,7 +58,7 @@ export default function Signin() {
             autoComplete="current-password"
             className="p-2 mt-1 text-black w-full rounded-xl"
             onChange={(e) =>
-              setFormState((s) => ({ ...s, password: e.target.value }))
+              setFormState({ ...formState, password: e.target.value })
             }
           />
         </label>
@@ -63,6 +70,7 @@ export default function Signin() {
           Signin
         </button>
         <a href="/register">Need an account?</a>
+        {displayError && <p className=" text-red-700">{error}</p>}
       </form>
     </div>
   );

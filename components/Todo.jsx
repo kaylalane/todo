@@ -2,7 +2,6 @@ import { initializeApp } from "firebase/app";
 import { app, auth, db } from "./config.js";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {
-  getFirestore,
   collection,
   doc,
   getDocs,
@@ -13,28 +12,29 @@ import {
   onSnapshot,
   setDoc,
 } from "firebase/firestore";
-import { useState, useEffect, useReducer } from "react";
+import { useState, useEffect } from "react";
 import { Dialog } from "@headlessui/react";
 import Navbar from "./Navbar.jsx";
 import { Plus } from "react-feather";
 import { Task } from "./Task.tsx";
+import { useNavigate } from "react-router-dom";
 
 const todoCollection = collection(db, "todos");
 const initialTask = { title: "", description: "", dueDate: null, username: "" };
 
-//addDoc(todoCollection, { name: "David!" });
 
 export default function ToDo() {
+  let navigate = useNavigate();
   const [uid, setUid] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [todos, setTodos] = useState([]);
-  const [completedTodos, setCompletedTodos] = useState([]);
   const [newTaskForm, setNewTaskForm] = useState({
     title: "",
     description: "",
     dueDate: null,
     username: "",
   });
+
 
   const changeHandler = (e) => {
     if (e.target.name == "dueDate") {
@@ -49,7 +49,7 @@ export default function ToDo() {
   };
 
   const handleSubmitNewTask = (e) => {
-    console.log("made it here");
+    //console.log("made it here");
     e.preventDefault();
     addDoc(todoCollection, {
       user_id: uid,
@@ -63,16 +63,14 @@ export default function ToDo() {
   };
 
   useEffect(() => {
-  
-    onAuthStateChanged(auth, result => {
-      if(result != null) {
-        console.log(result.uid);
-        setUid(result.uid)
-        console.log("there is a user", uid);
-
+    onAuthStateChanged(auth, (result) => {
+      if (result != null) {
+        //console.log(result.uid);
+        setUid(result.uid);
+        //console.log("there is a user", uid);
       } else {
-        console.log("there is not a user");
-
+        //console.log("there is not a user");
+        navigate("/signin");
       }
     });
 
@@ -91,12 +89,12 @@ export default function ToDo() {
         },
         { added: [], modified: [], removed: [] }
       );
-      console.log(changes);
+      //console.log(changes);
     });
 
     const fetchPost = async () => {
       if (uid == "") {
-        console.log("uid is null", auth.currentUser);
+        // console.log("uid is null", auth.currentUser);
       }
 
       await getDocs(todoCollection).then((querySnapshot) => {

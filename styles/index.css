@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root {
+  --bg: #111315;
+
+  color: white;
+  background-color: var(--bg);
+}
+
+
+.dialog-box {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 80%;
+  max-width: 600px;
+  transform: translate(-50%, -50%);
+  color: black;
+  background-color: #d8ddde;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}

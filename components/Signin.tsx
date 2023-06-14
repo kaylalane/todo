@@ -1,18 +1,16 @@
-import { initializeApp } from "firebase/app";
-import { app, auth } from "./config";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useEffect, useState } from "react";
-import { redirect } from "react-router";
-import { useNavigate, useLocation } from "react-router-dom";
+import { auth } from "./config";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "react-feather";
 
 export default function Signin() {
   let navigate = useNavigate();
-  const [error, setErrorMessage] = useState("AN ERROR");
+  const [error, setErrorMessage] = useState("There was a error signing in");
   const [displayError, setDisplayError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formState, setFormState] = useState({ email: "", password: "" });
-  function handleSubmit(e) {
+  function handleSubmit(e: FormEvent) {
     e.preventDefault();
     signInWithEmailAndPassword(auth, formState.email, formState.password)
       .then((userCredential) => {
@@ -68,7 +66,7 @@ export default function Signin() {
               className="absolute top-1/4 right-2"
               onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? <Eye color="black"/> : <EyeOff color="black" />}
+              {showPassword ? <Eye color="black" /> : <EyeOff color="black" />}
             </button>
           </div>
         </label>
@@ -76,7 +74,7 @@ export default function Signin() {
         <button
           type="submit"
           className="bg-button p-2 mt-2 rounded-xl text-black w-full"
-          onClick={() => handleSubmit()}
+          onClick={(e) => handleSubmit(e)}
         >
           Signin
         </button>

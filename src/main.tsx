@@ -1,20 +1,12 @@
-import React from "react";
+import * as React from "react";
 import ReactDOM from "react-dom/client";
 import "../styles/index.css";
-import {
-  createBrowserRouter,
-  redirect,
-  RouterProvider,
-  useNavigate,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Register from "../components/Register";
 import Signin from "../components/Signin";
-import { onAuthStateChanged } from "firebase/auth";
 import ToDo from "../components/Todo";
-import { auth } from "../components/config";
+import { render } from "react-dom";
 
-
-//const user = auth.currentUser;
 const router = createBrowserRouter([
   {
     path: "/",
@@ -30,7 +22,7 @@ const router = createBrowserRouter([
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>

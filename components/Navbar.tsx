@@ -1,6 +1,6 @@
 import { signOut } from "firebase/auth";
 import { auth } from "./config";
-import { useNavigate, redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   let navigate = useNavigate();

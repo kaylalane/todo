@@ -5,10 +5,9 @@ import { useNavigate } from "react-router-dom";
 export default function Navbar() {
   let navigate = useNavigate();
   return (
-    <nav className="p-4 flex justify-between items-center">
-      <h1 className=" text-2xl text-center">
-        What Should Frontend Developers Be Doing Today?
-      </h1>
+    <nav className="py-4 flex justify-between items-center">
+      <h1 className=" text-2xl text-center">Do it! </h1>
+      <p>A community goal list</p>
       <button
         onClick={() => {
           signOut(auth)

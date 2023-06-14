@@ -1,6 +1,6 @@
 import { auth, db } from "./config";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, addDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { collection, addDoc, setDoc, doc } from "firebase/firestore";
 import { FormEvent, useState } from "react";
 import { Eye, EyeOff } from "react-feather";
 import { useNavigate } from "react-router-dom";
@@ -8,27 +8,36 @@ import { useNavigate } from "react-router-dom";
 const usersCollection = collection(db, "users");
 
 export default function Register() {
+  const navigate = useNavigate();
+  const [error, setErrorMessage] = useState("There was a error signing in");
+  const [displayError, setDisplayError] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [formState, setFormState] = useState({
     email: "",
     password: "",
     name: "",
   });
-  const navigate = useNavigate();
-  const [error, setErrorMessage] = useState("There was a error signing in");
-  const [displayError, setDisplayError] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     createUserWithEmailAndPassword(auth, formState.email, formState.password)
       .then((userCredential) => {
-        const user = userCredential.user;
-        const uid = user.uid;
-        addDoc(usersCollection, {
-          user_id: uid,
+        updateProfile(userCredential.user, {
+          displayName: formState.name,
+        })
+          .then(() => {
+            // Profile updated!
+            // ...
+          })
+          .catch((error) => {
+            // An error occurred
+            // ...
+          });
+
+        setDoc(doc(db, "users", userCredential.user.uid), {
+          uid: userCredential.user.uid,
           name: formState.name,
           email: formState.email,
-          todos: [],
         });
 
         navigate("/");
@@ -50,7 +59,7 @@ export default function Register() {
       >
         <h2 className="text-2xl">Register</h2>
         <label className="w-full">
-          Name
+          Username
           <input
             required
             autoComplete="given-name"

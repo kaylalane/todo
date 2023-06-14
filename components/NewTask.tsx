@@ -1,11 +1,12 @@
 import { Dialog } from "@headlessui/react";
-import { Timestamp, addDoc, collection } from "firebase/firestore";
+import { Timestamp, addDoc, collection, doc } from "firebase/firestore";
 import { FormEvent, FormEventHandler, useEffect, useState } from "react";
 import { auth, db } from "./config";
 import { onAuthStateChanged } from "firebase/auth";
 import { Plus } from "react-feather";
 
-const todoCollection = collection(db, "todos");
+let todoCollection = collection(db, "todos");
+console.log(todoCollection);
 const initialTask = { title: "", description: "", dueDate: "", username: "" };
 
 export const NewTask = () => {
@@ -23,7 +24,6 @@ export const NewTask = () => {
       var date = Timestamp.fromDate(new Date(e.target.value))
         .toDate()
         .toLocaleDateString();
-      //var local = new Intl.DateTimeFormat('en-US').format(date);
       setNewTaskForm({ ...newTaskForm, [e.target.name]: date });
     } else {
       setNewTaskForm({ ...newTaskForm, [e.target.name]: e.target.value });
@@ -31,7 +31,6 @@ export const NewTask = () => {
   };
 
   const handleSubmitNewTask = (e: FormEvent) => {
-    console.log("made it here");
     e.preventDefault();
     addDoc(todoCollection, {
       user_id: uid,
@@ -39,6 +38,7 @@ export const NewTask = () => {
       description: newTaskForm.description,
       due_date: newTaskForm.dueDate,
       status: "NOT_STARTED",
+      username: auth.currentUser?.displayName,
     });
     setIsOpen(false);
   };
@@ -47,11 +47,9 @@ export const NewTask = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         if (user.uid !== "") {
+          //todoCollection = collection(db, `users/${user.uid}/todos`);
           setUid(user.uid);
         }
-        console.log("there is a user", uid);
-      } else {
-        console.log("there is not a user");
       }
     });
   }, []);

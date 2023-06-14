@@ -22,6 +22,7 @@ type TaskType = {
   id: string;
   status: string;
   user_id: string;
+  username?: string;
 };
 
 export const Task = ({ todo }: { todo: TaskType }) => {
@@ -42,11 +43,11 @@ export const Task = ({ todo }: { todo: TaskType }) => {
     <div className=" bg-[#111315] text-white rounded-xl p-4 m-2">
       <div className="flex justify-between">
         {todo.title}
-        <DropdownMenu>
+        <DropdownMenu >
           <DropdownMenuTrigger>
             <MoreVertical size={16} />
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
+          <DropdownMenuContent className="bg-[#111315]">
             {todo.status == "NOT_STARTED" ? (
               <DropdownMenuItem onClick={() => markComplete()}>
                 Complete
@@ -56,8 +57,6 @@ export const Task = ({ todo }: { todo: TaskType }) => {
                 Mark incomplete
               </DropdownMenuItem>
             )}
-
-            <DropdownMenuItem>Edit</DropdownMenuItem>
             <DropdownMenuItem onClick={() => deleteTask()}>
               Delete
             </DropdownMenuItem>
@@ -65,7 +64,8 @@ export const Task = ({ todo }: { todo: TaskType }) => {
         </DropdownMenu>
       </div>
       <p className=" text-gray-400">{todo.description}</p>
-      <p className="text-gray-700">{todo.due_date}</p>
+      {todo.due_date&&  <p className="text-gray-700">Due {todo.due_date}</p>}
+      {todo.username && <p className="text-gray-700"> Posted by {todo.username}</p>}
     </div>
   );
 };

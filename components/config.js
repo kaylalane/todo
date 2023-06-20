@@ -20,9 +20,13 @@ export const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
-
+let user;
 let key = null;
+export function setUser() {
+  user = auth.currentUser;
+}
 
-export function changeUser(temp) {
-  key = temp
+
+export function getUser() {
+  return user;
 }

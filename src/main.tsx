@@ -20,6 +20,7 @@ const router = createBrowserRouter([
     loader: async () => {
       onAuthStateChanged(auth, (result) => {
         if (result != null) {
+         
         }
       });
       return null;

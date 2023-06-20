@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestorem, connectFirestoreEmulator } from "firebase/firestore";
 import { getAuth, connectAuthEmulator } from "firebase/auth";
-import { config } from "./src/config";
+import { config } from "./components/config";
 
 export function initialize() {
   const firebaseApp = initializeApp(config.firebase);

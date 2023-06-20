@@ -6,7 +6,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { Plus } from "react-feather";
 
 let todoCollection = collection(db, "todos");
-console.log(todoCollection);
+//console.log(todoCollection);
 const initialTask = { title: "", description: "", dueDate: "", username: "" };
 
 export const NewTask = () => {
@@ -32,6 +32,7 @@ export const NewTask = () => {
 
   const handleSubmitNewTask = (e: FormEvent) => {
     e.preventDefault();
+    //const q = collection(db, `users/${auth.tenantId}/todos`);
     addDoc(todoCollection, {
       user_id: uid,
       title: newTaskForm.title,
@@ -62,6 +63,7 @@ export const NewTask = () => {
           className="bg-[#7A306C] p-1 rounded-2xl font-semibold flex items-center align-middle"
         >
           <Plus size={24} color="white" />
+          <span className=" sr-only">Add a new task</span>
         </button>
         <p>Add task</p>
       </div>

@@ -7,7 +7,6 @@ export default function Navbar() {
   return (
     <nav className="py-4 flex justify-between items-center">
       <h1 className=" text-2xl text-center">Do it! </h1>
-      <p>A community goal list</p>
       <button
         onClick={() => {
           signOut(auth)

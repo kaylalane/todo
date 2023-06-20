@@ -1,3 +1,3 @@
-# todo
+# Do it!
 
-A todo website made with React, Firebase and Tailwind.
+A todo app made with React, React Router, Tailwind and Firebase.

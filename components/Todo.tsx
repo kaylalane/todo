@@ -11,7 +11,7 @@ import {
 import { useState, useEffect } from "react";
 import Navbar from "./Navbar.js";
 import { Task } from "./Task";
-import { redirect, useNavigate } from "react-router-dom";
+import { useLocation, Navigate } from "react-router-dom";
 import { NewTask } from "./NewTask";
 
 let todoCollection = collection(db, "todos");
@@ -25,16 +25,23 @@ type TaskType = {
   user_id: string;
 };
 
-//redirect unsigned in users
-onAuthStateChanged(auth, (result) => {
-  if (result === null) {
-    redirect("/signin");
+function RequireAuth({ children }: { children: JSX.Element }) {
+  let location = useLocation();
+
+  if (!auth.currentUser) {
+    // Redirect them to the /login page, but save the current location they were
+    // trying to go to when they were redirected. This allows us to send them
+    // along to that page after they login, which is a nicer user experience
+    // than dropping them off on the home page.
+    return <Navigate to="/signin" state={{ from: location }} replace />;
   }
-});
+
+  return children;
+}
 
 export default function ToDo() {
-  const navigate = useNavigate();
   const [todos, setTodos] = useState<TaskType[]>([]);
+
   const fetchPost = async () => {
     //query for todos with user uids
     const q = query(
@@ -62,37 +69,39 @@ export default function ToDo() {
   }, []);
 
   return (
-    <div className="px-4 ">
-      <Navbar />
-      <NewTask />
+    <RequireAuth>
+      <div className="px-4 ">
+        <Navbar />
+        <NewTask />
 
-      <div className="flex flex-col sm:flex-row gap-4">
-        <section className="bg-[#191d20] p-4 rounded-xl basis-1/2">
-          <h2 className=" text-xl">To Do</h2>
+        <div className="flex flex-col sm:flex-row gap-4">
+          <section className="bg-[#191d20] p-4 rounded-xl basis-1/2">
+            <h2 className=" text-xl">To Do</h2>
 
-          <div>
-            {todos
-              .filter((todo) => todo.status == "NOT_STARTED")
-              .map((todo) => (
-                <Task todo={todo} key={todo.id} />
-              ))}
-          </div>
-        </section>
+            <div>
+              {todos
+                .filter((todo) => todo.status == "NOT_STARTED")
+                .map((todo) => (
+                  <Task todo={todo} key={todo.id} />
+                ))}
+            </div>
+          </section>
 
-        <section className="basis-1/2 bg-[#191d20] rounded-xl p-4">
-          <div className="flex justify-between">
-            <h2 className="text-xl">Completed</h2>
-          </div>
+          <section className="basis-1/2 bg-[#191d20] rounded-xl p-4">
+            <div className="flex justify-between">
+              <h2 className="text-xl">Completed</h2>
+            </div>
 
-          <div>
-            {todos
-              .filter((todo) => todo.status == "COMPLETED")
-              .map((todo) => (
-                <Task todo={todo} key={todo.id} />
-              ))}
-          </div>
-        </section>
+            <div>
+              {todos
+                .filter((todo) => todo.status == "COMPLETED")
+                .map((todo) => (
+                  <Task todo={todo} key={todo.id} />
+                ))}
+            </div>
+          </section>
+        </div>
       </div>
-    </div>
+    </RequireAuth>
   );
 }

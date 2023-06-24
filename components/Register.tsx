@@ -5,8 +5,6 @@ import { FormEvent, useState } from "react";
 import { Eye, EyeOff } from "react-feather";
 import { useNavigate } from "react-router-dom";
 
-const usersCollection = collection(db, "users");
-
 export default function Register() {
   const navigate = useNavigate();
   const [error, setErrorMessage] = useState("There was a error signing in");

@@ -76,9 +76,11 @@ export default function Signin() {
           className="bg-button p-2 mt-2 rounded-xl text-black w-full"
           onClick={(e) => handleSubmit(e)}
         >
-          Signin
+          Sign in
         </button>
-        <a href="/register">Need an account?</a>
+        <a href="/register" className=" underline">
+          Need an account?
+        </a>
         {displayError && <p className=" text-red-700">{error}</p>}
       </form>
     </div>

@@ -27,12 +27,13 @@ type TaskType = {
 
 //redirect unsigned in users
 onAuthStateChanged(auth, (result) => {
-  if (result == null) {
+  if (result === null) {
     redirect("/signin");
   }
 });
 
 export default function ToDo() {
+  const navigate = useNavigate();
   const [todos, setTodos] = useState<TaskType[]>([]);
   const fetchPost = async () => {
     //query for todos with user uids

@@ -4,6 +4,7 @@ import "../styles/index.css";
 import {
   createBrowserRouter,
   Navigate,
+  redirect,
   RouterProvider,
 } from "react-router-dom";
 import Register from "../components/Register";
@@ -12,15 +13,19 @@ import ToDo from "../components/Todo";
 import { render } from "react-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../components/config";
-
+onAuthStateChanged(auth, (result) => {
+  if (result === null) {
+    redirect('/signin')
+  }
+});
 const router = createBrowserRouter([
   {
     path: "/",
     element: <ToDo />,
     loader: async () => {
       onAuthStateChanged(auth, (result) => {
-        if (result != null) {
-         
+        if (result?.uid == null) {
+          redirect('/signin')
         }
       });
       return null;

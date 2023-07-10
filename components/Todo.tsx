@@ -43,6 +43,8 @@ export default function ToDo() {
   const [todos, setTodos] = useState<TaskType[]>([]);
 
   const fetchPost = async () => {
+    console.log("fetch post")
+
     //query for todos with user uids
     const q = query(
       collection(db, "todos"),
@@ -60,11 +62,13 @@ export default function ToDo() {
     });
   };
 
-  onSnapshot(todoCollection, (snapshot) => {
+ /*  onSnapshot(todoCollection, (snapshot) => {
     fetchPost();
-  });
+  }); */
 
   useEffect(() => {
+    console.log("use effect")
+
     fetchPost();
   }, []);
 
@@ -96,7 +100,7 @@ export default function ToDo() {
               {todos
                 .filter((todo) => todo.status == "COMPLETED")
                 .map((todo) => (
-                  <Task todo={todo} key={todo.id} />
+                  <Task todo={todo} key={todo.id} todos={todos} setTodos={setTodos}/>
                 ))}
             </div>
           </section>

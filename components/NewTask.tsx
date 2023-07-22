@@ -1,15 +1,42 @@
 import { Dialog } from "@headlessui/react";
 import { Timestamp, addDoc, collection, doc } from "firebase/firestore";
-import { FormEvent, FormEventHandler, useEffect, useState } from "react";
+import {
+  Dispatch,
+  FormEvent,
+  FormEventHandler,
+  useEffect,
+  useState,
+} from "react";
 import { auth, db } from "./config";
 import { onAuthStateChanged } from "firebase/auth";
 import { Plus } from "react-feather";
+import { StringToBoolean } from "class-variance-authority/dist/types";
+import { TZDate } from "@toast-ui/calendar";
+
+type TaskType = {
+  title: string;
+  description: string;
+  due_date?: string;
+  start?: TZDate;
+  end?: TZDate;
+  isAllDay?: string;
+  category?: string;
+  id: string;
+  status: string;
+  user_id: string;
+};
 
 let todoCollection = collection(db, "todos");
 //console.log(todoCollection);
 const initialTask = { title: "", description: "", dueDate: "", username: "" };
 
-export const NewTask = () => {
+export const NewTask = ({
+  todos,
+  setTodos,
+}: {
+  todos: TaskType[];
+  setTodos: Dispatch<React.SetStateAction<TaskType[]>>;
+}) => {
   const [uid, setUid] = useState("");
   let [isOpen, setIsOpen] = useState(false);
   const [newTaskForm, setNewTaskForm] = useState({
@@ -30,18 +57,36 @@ export const NewTask = () => {
     }
   };
 
-  const handleSubmitNewTask = (e: FormEvent) => {
+  const handleSubmitNewTask = async (e: FormEvent) => {
     e.preventDefault();
-    //const q = collection(db, `users/${auth.tenantId}/todos`);
-    addDoc(todoCollection, {
+    const newDoc = await addDoc(todoCollection, {
       user_id: uid,
       title: newTaskForm.title,
       description: newTaskForm.description,
       due_date: newTaskForm.dueDate,
+      start: newTaskForm.dueDate,
+      end: newTaskForm.dueDate,
       status: "NOT_STARTED",
+      isAllDay: "allday",
+      category: "task",
       username: auth.currentUser?.displayName,
     });
     setIsOpen(false);
+    setTodos([
+      ...todos,
+      {
+        id: newDoc.id,
+        user_id: uid,
+        title: newTaskForm.title,
+        description: newTaskForm.description,
+        due_date: newTaskForm.dueDate,
+        status: "NOT_STARTED",
+        start: new TZDate(newTaskForm.dueDate),
+        end: new TZDate(newTaskForm.dueDate),
+        isAllDay: "allday",
+        category: "task",
+      },
+    ]);
   };
 
   useEffect(() => {

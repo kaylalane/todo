@@ -33,7 +33,7 @@ export const UpdateTask = ({ todo }: { todo: TaskType }) => {
         <div className="">
           <Dialog.Panel className="w-full">
             <Dialog.Title className=" text-center text-xl">
-              Create a new todo!
+              Edit Todo
             </Dialog.Title>
 
             <form>

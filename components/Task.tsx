@@ -1,18 +1,12 @@
-import { Dispatch, SetStateAction, useReducer, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { List, MoreVertical } from "react-feather";
-import {
-  collection,
-  deleteDoc,
-  doc,
-  onSnapshot,
-  updateDoc,
-} from "firebase/firestore";
+import { MoreVertical } from "react-feather";
+import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "./config";
 import { Dialog } from "@headlessui/react";
 import { UpdateTask } from "./UpdateTask";
@@ -33,7 +27,7 @@ export const Task = ({
   setTodos,
 }: {
   todo: TaskType;
-  todos: Array<TaskType>;
+  todos: TaskType[];
   setTodos: Dispatch<SetStateAction<TaskType[]>>;
 }) => {
   const currentDoc = doc(db, `todos/${todo.id}`);

@@ -1,20 +1,12 @@
 import { auth, db } from "./config.js";
 import { onAuthStateChanged } from "firebase/auth";
-import {
-  collection,
-  getDocs,
-  onSnapshot,
-  query,
-  where,
-  doc,
-} from "firebase/firestore";
-import { useState, useEffect } from "react";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { useState, useEffect, Suspense } from "react";
 import Navbar from "./Navbar.js";
 import { Task } from "./Task";
 import { useLocation, Navigate } from "react-router-dom";
 import { NewTask } from "./NewTask";
-
-let todoCollection = collection(db, "todos");
+import RequireAuth from "./RequireAuth.js";
 
 type TaskType = {
   title: string;
@@ -25,25 +17,11 @@ type TaskType = {
   user_id: string;
 };
 
-function RequireAuth({ children }: { children: JSX.Element }) {
-  let location = useLocation();
-
-  if (!auth.currentUser) {
-    // Redirect them to the /login page, but save the current location they were
-    // trying to go to when they were redirected. This allows us to send them
-    // along to that page after they login, which is a nicer user experience
-    // than dropping them off on the home page.
-    return <Navigate to="/signin" state={{ from: location }} replace />;
-  }
-
-  return children;
-}
 
 export default function ToDo() {
   const [todos, setTodos] = useState<TaskType[]>([]);
-
-  const fetchPost = async () => {
-    console.log("fetch post")
+  const fetchPost = () => {
+    console.log("fetch post");
 
     //query for todos with user uids
     const q = query(
@@ -62,31 +40,33 @@ export default function ToDo() {
     });
   };
 
- /*  onSnapshot(todoCollection, (snapshot) => {
-    fetchPost();
-  }); */
-
   useEffect(() => {
-    console.log("use effect")
-
     fetchPost();
   }, []);
 
   return (
     <RequireAuth>
-      <div className="px-4 ">
-        <Navbar />
-        <NewTask />
+      <div className="px-4 w-full">
+        <NewTask todos={todos} setTodos={setTodos} />
 
         <div className="flex flex-col sm:flex-row gap-4">
           <section className="bg-[#191d20] p-4 rounded-xl basis-1/2">
-            <h2 className=" text-xl">To Do</h2>
-
+            <div className=" flex gap-2 justify-between">
+              <h2 className=" text-xl">In Progress</h2>
+              <p className=" text-sm text-slate-300 self-center">
+                {todos.filter((todo) => todo.status == "NOT_STARTED").length}{" "}
+              </p>
+            </div>
             <div>
               {todos
                 .filter((todo) => todo.status == "NOT_STARTED")
                 .map((todo) => (
-                  <Task todo={todo} key={todo.id} />
+                  <Task
+                    todo={todo}
+                    key={todo.id}
+                    todos={todos}
+                    setTodos={setTodos}
+                  />
                 ))}
             </div>
           </section>
@@ -94,13 +74,21 @@ export default function ToDo() {
           <section className="basis-1/2 bg-[#191d20] rounded-xl p-4">
             <div className="flex justify-between">
               <h2 className="text-xl">Completed</h2>
+              <p className=" text-sm text-slate-300 self-center">
+                {todos.filter((todo) => todo.status == "COMPLETED").length}{" "}
+              </p>
             </div>
 
             <div>
               {todos
                 .filter((todo) => todo.status == "COMPLETED")
                 .map((todo) => (
-                  <Task todo={todo} key={todo.id} todos={todos} setTodos={setTodos}/>
+                  <Task
+                    todo={todo}
+                    key={todo.id}
+                    todos={todos}
+                    setTodos={setTodos}
+                  />
                 ))}
             </div>
           </section>

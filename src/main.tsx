@@ -2,11 +2,11 @@ import * as React from "react";
 import ReactDOM from "react-dom/client";
 import "../styles/index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Register from "../components/Register";
-import Signin from "../components/Signin";
+import Register from "../routes/Register";
+import Signin from "../routes/Signin";
 import ToDo from "../components/Todo";
-import App from "../components/App";
-import Calender from "../components/Calender"
+import App from "../routes/App";
+import Calender from "../routes/Calender";
 
 const router = createBrowserRouter([
   {
@@ -23,12 +23,14 @@ const router = createBrowserRouter([
   },
   {
     path: "/calender",
-    element: <Calender />
-  }
+    element: <Calender />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <div className=" min-h-screen">
+      <RouterProvider router={router} />
+    </div>
   </React.StrictMode>
 );

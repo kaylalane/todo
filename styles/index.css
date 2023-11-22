@@ -3,12 +3,135 @@
 @tailwind utilities;
 
 :root {
-  --bg: #111315;
+  --bg: #0f0e20;
+  --text: #ececf8;
+  --background: #080816;
+  --primary: #272b6d;
+  --secondary: #171940;
+  --accent: #5e63c5;
+  --box: #10101d;
+  --border-radius: 10px;
 
   color: white;
-  background-color: black;
+  background-color: var(--background);
 }
 
+/** Keeps page to screen height**/
+.scroll-view {
+  display: flex;
+
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main-view {
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.nav-link {
+  padding: 1rem;
+  border-radius: 20px;
+}
+
+.active {
+  color: var(--accent);
+  background-color: var(--secondary);
+}
+
+.btn {
+  color: white;
+  background-color: var(--accent);
+  padding: 0.5rem;
+  border-radius: var(--border-radius);
+}
+
+.btn-full {
+  width: 100%;
+}
+
+.svg-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/** START CALENDER **/
+.calender-container {
+  border-radius: var(--border-radius);
+}
+/** END CALENDER **/
+
+/** START FORMS **/
+
+.purple-gradient {
+  background: rgb(24, 21, 43);
+  background: linear-gradient(
+    180deg,
+    rgba(24, 21, 43, 1) 0%,
+    rgba(21, 18, 52, 1) 73%
+  );
+}
+:-webkit-autofill,
+:-webkit-autofill:hover,
+:-webkit-autofill:focus {
+  color: black;
+}
+input {
+  color: black;
+}
+
+.form-container {
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  border-radius: 10px;
+  filter: drop-shadow(1px 3px 8px black);
+  background-color: #212042;
+  color: #a2a2bf;
+  padding-bottom: 10px;
+  max-width: 600px;
+}
+
+.form-header {
+  padding: 2rem;
+  border-bottom: 1px solid rgb(172, 169, 169);
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-flow: column;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-error {
+  text-align: center;
+  color: red;
+}
+
+.show-password {
+  position: absolute;
+  top: 25%;
+  right: 5%;
+}
+
+/** END FORMS **/
+
+/** START TASK **/
+.task-container {
+  color: white;
+  background-color: var(--secondary);
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  margin: 0.5rem 0;
+}
+
+/** START TASK **/
 
 .dialog-box {
   position: absolute;
@@ -17,13 +140,12 @@
   width: 80%;
   max-width: 600px;
   transform: translate(-50%, -50%);
-  color: black;
-  background-color: #d8ddde;
+  color: white;
+  background-color: var(--secondary);
   padding: 1rem;
   border-radius: var(--border-radius);
 
   display: flex;
   justify-content: center;
   align-items: center;
-
 }

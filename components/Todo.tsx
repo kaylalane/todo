@@ -1,10 +1,7 @@
 import { auth, db } from "./config.js";
-import { onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useState, useEffect, Suspense } from "react";
-import Navbar from "./Navbar.js";
 import { Task } from "./Task";
-import { useLocation, Navigate } from "react-router-dom";
 import { NewTask } from "./NewTask";
 import RequireAuth from "./RequireAuth.js";
 
@@ -50,7 +47,7 @@ export default function ToDo() {
         <NewTask todos={todos} setTodos={setTodos} />
 
         <div className="flex flex-col sm:flex-row gap-4">
-          <section className="bg-[#191d20] p-4 rounded-xl basis-1/2">
+          <section className=" p-4 rounded-xl basis-1/2">
             <div className=" flex gap-2 justify-between">
               <h2 className=" text-xl">In Progress</h2>
               <p className=" text-sm text-slate-300 self-center">
@@ -71,7 +68,7 @@ export default function ToDo() {
             </div>
           </section>
 
-          <section className="basis-1/2 bg-[#191d20] rounded-xl p-4">
+          <section className="basis-1/2 rounded-xl p-4">
             <div className="flex justify-between">
               <h2 className="text-xl">Completed</h2>
               <p className=" text-sm text-slate-300 self-center">

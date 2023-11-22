@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "./Navbar";
+import Navbar from "../components/Navbar.js";
 import Calendar from "@toast-ui/react-calendar";
 import "@toast-ui/calendar/dist/toastui-calendar.min.css";
-import { TZDate } from "@toast-ui/calendar";
-import { addDate } from "../lib/utils";
-import RequireAuth from "./RequireAuth";
-import { auth, db } from "./config.js";
+import { Options, TZDate } from "@toast-ui/calendar";
+import { addDate } from "../lib/utils.js";
+import RequireAuth from "../components/RequireAuth.js";
+import { auth, db } from "../components/config.js";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { ScrollArea } from "./ui/scroll-area";
+import { ScrollArea } from "../components/ui/scroll-area.js";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
+} from "../components/ui/select.js";
+import Layout from "../components/Layout.js";
 
 const today = new TZDate();
 
@@ -118,9 +119,8 @@ export default function Calender() {
   }, []);
   return (
     <RequireAuth>
-      <div className=" flex w-screen h-screen">
-        <Navbar />
-        <ScrollArea className=" w-full h-full p-4">
+      <Layout>
+        <div className=" w-full h-full p-4">
           {view == "month" ? (
             <div className=" flex justify-between px-2 pb-4">
               <h2 className=" text-2xl">Monthly View</h2>
@@ -136,7 +136,7 @@ export default function Calender() {
               </button>
             </div>
           )}
-          <div className=" text-black rounded-2xl">
+          <div className=" calender-container  rounded-2xl ">
             <Calendar
               usageStatistics={false}
               isReadOnly={true}
@@ -181,34 +181,24 @@ export default function Calender() {
                 eventView: false,
                 taskView: true,
               }}
-              theme={{
-                nowIndicatorToday: { color: "#000000" },
-                nowIndicatorBullet: { backgroundColor: "#000000" },
-              }}
+              theme={theme}
             />
           </div>
-        </ScrollArea>
-      </div>
+        </div>
+      </Layout>
     </RequireAuth>
   );
 }
 
-const theme = {
-  moreView: {
-    border: "1px solid grey",
-    boxShadow: "0 2px 6px 0 grey",
-    backgroundColor: "white",
-    width: 320,
-    height: 200,
-    color: "#000000",
-  },
+
+const theme: Options["theme"] = {
   common: {
     border: "1px solid #ddd",
-    backgroundColor: "white",
+    backgroundColor: "#3080816",
     holiday: { color: "#f54f3d" },
-    saturday: { color: "#135de6" },
-    dayName: { color: "#333" },
-    today: { color: "#009688" },
+    saturday: { color: "#FFFFFF" },
+    dayName: { color: "#FFFFFF" },
+    today: { color: "#FFFFFF" },
     gridSelection: {
       backgroundColor: "rgba(19, 93, 230, 0.1)",
       border: "1px solid #135de6",
@@ -221,7 +211,6 @@ const theme = {
     },
     holidayExceptThisMonth: { color: "#f3acac" },
     dayExceptThisMonth: { color: "#bbb" },
-    weekend: { backgroundColor: "#fafafa" },
     moreView: { boxShadow: "none" },
     moreViewTitle: { backgroundColor: "#f4f4f4" },
   },
@@ -233,8 +222,8 @@ const theme = {
       backgroundColor: "inherit",
     },
     today: {
-      color: "#009688",
-      backgroundColor: "inherit",
+      color: "#5e63c5",
+      backgroundColor: "#5e63c5",
     },
     pastDay: { color: "#999" },
     panelResizer: { border: "1px solid #ddd" },
@@ -257,7 +246,7 @@ const theme = {
     nowIndicatorLabel: { color: "#135de6" },
     nowIndicatorPast: { border: "1px solid rgba(19, 93, 230, 0.3)" },
     nowIndicatorBullet: { backgroundColor: "#135de6" },
-    nowIndicatorToday: { border: "1px solid #135de6" },
+    nowIndicatorToday: { border: "1px solid #5e63c5" },
     nowIndicatorFuture: { border: "1px solid #135de6" },
     pastTime: { color: "#999" },
     futureTime: { color: "#333" },

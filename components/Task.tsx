@@ -76,7 +76,7 @@ export const Task = ({
     setTodos(todos.filter((a) => a.id !== todo.id));
   };
   return (
-    <div className=" bg-[#111315] text-white rounded-xl p-4 m-2">
+    <div className=" task-container">
       <div className="flex justify-between">
         {todo.title}
         <DropdownMenu>
@@ -103,7 +103,7 @@ export const Task = ({
         </DropdownMenu>
       </div>
       <p className=" text-gray-400">{todo.description}</p>
-      {todo.due_date && <p className="text-gray-700">Due {todo.due_date}</p>}
+      {todo.due_date && <p className="text-[#5258ad]">Due {todo.due_date}</p>}
 
       <Dialog
         open={isOpen}
@@ -111,8 +111,8 @@ export const Task = ({
           setIsOpen(false);
         }}
       >
-        <div className="dialog-box">
-          <Dialog.Panel className="w-full">
+        <div className="">
+          <Dialog.Panel className="dialog-box">
             <Dialog.Title className=" text-center text-xl">
               Create a new todo!
             </Dialog.Title>

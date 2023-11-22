@@ -10,7 +10,6 @@ import {
 import { auth, db } from "./config";
 import { onAuthStateChanged } from "firebase/auth";
 import { Plus } from "react-feather";
-import { StringToBoolean } from "class-variance-authority/dist/types";
 import { TZDate } from "@toast-ui/calendar";
 
 type TaskType = {
@@ -105,7 +104,7 @@ export const NewTask = ({
         <button
           id="add-today"
           onClick={() => setIsOpen(true)}
-          className="bg-[#7A306C] p-1 rounded-2xl font-semibold flex items-center align-middle"
+          className="btn svg-btn"
         >
           <Plus size={24} color="white" />
           <span className=" sr-only">Add a new task</span>
@@ -129,7 +128,7 @@ export const NewTask = ({
               onSubmit={(e) => {
                 handleSubmitNewTask(e);
               }}
-              className="flex flex-col gap-4 bg-none justify-start items-start"
+              className=""
             >
               <label className="flex flex-col w-full">
                 Title
@@ -170,7 +169,7 @@ export const NewTask = ({
               <button
                 type="submit"
                 role="button"
-                className="bg-button w-full p-2 rounded-xl"
+                className="btn btn-full"
               >
                 Save
               </button>

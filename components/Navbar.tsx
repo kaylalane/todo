@@ -1,29 +1,31 @@
 import { signOut } from "firebase/auth";
 import { auth } from "./config";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Separator } from "./ui/separator";
+import { cn } from "../lib/utils";
 
 export default function Navbar() {
   let navigate = useNavigate();
   return (
-    <nav className=" bg-[#111315] basis-1/4 p-4 flex flex-col relative">
-      <h1 className=" text-2xl">Do it! </h1>
- 
-      <button
-        className=" self-start rounded-xl py-2"
-        onClick={() => navigate("/")}
+    <nav className=" bg-[#10101d] basis-1/4 p-4 flex flex-col relative">
+      <h1 className=" text-2xl p-4">Do it! </h1>
+      <NavLink
+        to="/"
+        className={cn(({ isActive, isPending }) =>
+        isPending ? "pending" : isActive ? "active" : ""
+      ,"nav-link")}
       >
         Dashboard
-      </button>
-
-      <button
-        className=" self-start rounded-xl py-2"
-        onClick={() => navigate("/calender")}
+      </NavLink>
+      <NavLink
+        to="/calender"
+        className={cn(({ isActive, isPending }) =>
+          isPending ? "pending" : isActive ? "active" : ""
+        ,"nav-link")}
       >
         Calendar
-      </button>
-
+      </NavLink>
       <div className="  flex gap-2 mt-auto">
         <div className=" flex gap-2 ">
           <Avatar>
@@ -44,7 +46,7 @@ export default function Navbar() {
           onClick={() => {
             signOut(auth)
               .then(() => {
-                navigate("/signin", { replace: true });
+                window.location.href = "/signin";
               })
               .catch((error) => {
                 console.log(error);

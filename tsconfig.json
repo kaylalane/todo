@@ -16,5 +16,5 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src/../.{tsx}", "lib", "components"]
+  "include": ["src/../.{tsx}", "lib", "components", "routes/App.tsx", "routes/Register.tsx", "routes/Signin.tsx", "routes/Calender.tsx"]
 }
